@@ -4,6 +4,7 @@ import { Home } from './src/screens/Home';
 import Loading from "./src/components/Loading";
 // import OneSignal from 'react-native-onesignal';
 // OneSignal.setAppId("api-key");
+// OneSignal.promptForPushNotificationsWithUserResponse()
 
 export default function App() {
   const [fontsLoaded] = useFonts({
