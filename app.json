@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expoboilerplate",
-    "slug": "expoboilerplate",
+    "name": "yourapp",
+    "slug": "yourapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.expoboilerplate"
+      "bundleIdentifier": "com.angeloricardoweb.yourapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,10 +31,12 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "onesignal-expo-plugin",
-      {
-        "mode": "development"
-      }
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ]
     ]
   }
 }
