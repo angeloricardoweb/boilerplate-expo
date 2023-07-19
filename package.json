@@ -22,7 +22,8 @@
     "react-native": "0.70.5",
     "react-native-onesignal": "^4.5.1",
     "react-native-svg": "13.4.0",
-    "react-native-web": "~0.18.9"
+    "react-native-web": "~0.18.9",
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
