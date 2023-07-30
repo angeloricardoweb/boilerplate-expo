@@ -1,4 +1,4 @@
-import { StatusBar } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import {
   useFonts,
   Inter_400Regular,
@@ -8,7 +8,9 @@ import {
 } from '@expo-google-fonts/inter';
 import Loading from './src/components/Loading';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Routes } from 'src/routes';
+import { Routes } from './src/routes';
+import { colors } from '@theme/colors';
+import useAuthenticatedStore from '@stores/useAuthenticatedStore';
 // import OneSignal from 'react-native-onesignal';
 // OneSignal.setAppId("api-key");
 // OneSignal.promptForPushNotificationsWithUserResponse()
@@ -30,11 +32,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Routes />
-      <StatusBar
-        barStyle={'light-content'}
-        backgroundColor="transparent"
-        translucent
-      />
+      <StatusBar style="light" backgroundColor={colors.primary} translucent />
     </QueryClientProvider>
   );
 }

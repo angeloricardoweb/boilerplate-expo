@@ -11,10 +11,11 @@
       "@assets/*": ["./src/assets/*"],
       "@constants/*": ["./src/constants/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@types/*": ["./src/types/*"],
+      "@types/*": ["./src/@types/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@theme/*": ["./src/theme/*"],
+      "@storage/*": ["./src/storage/*"],
       "@services/*": ["./src/services/*"],
-      "@store/*": ["./src/store/*"],
-      "@theme/*": ["./src/theme/*"]
     }
   }
 }

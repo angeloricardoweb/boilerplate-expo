@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   TextInput,
   TouchableWithoutFeedback,
@@ -9,30 +8,56 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 import React, { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Constants from 'expo-constants';
 import { colors } from '@theme/colors';
 import { formStyles, typography } from '@theme/globalStyles';
-import { useNavigation } from '@react-navigation/native';
+import Logo from '../../../assets/icon.png';
+import { useMutation } from 'react-query';
+import { api } from '@services/axios';
+import { messageError } from '@services/messageError';
+import { useAuth } from '@hooks/useAuth';
+import { setToken } from '@storage/token';
+
+type LoginProps = {
+  email: string;
+  password: string;
+};
 
 export function LoginScreen() {
-  const [text, onChangeText] = useState('');
+  const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
+  const { setIsAuthenticated } = useAuth();
 
-  const { navigate } = useNavigation();
-
-  const navigateToHome = () => {
-    navigate('HomeTabNavigation');
-  };
+  const handleLogin = useMutation({
+    mutationFn: async (props: LoginProps) => {
+      if (!props.email || !props.password) {
+        throw messageError('Preencha todos os campos');
+      }
+      return await api
+        .post('https://api-temp-hermes.vercel.app/api/auth/login', {
+          email: props.email,
+          password: props.password,
+        })
+        .then((response) => response.data);
+    },
+    onSuccess: (data) => {
+      setIsAuthenticated(true);
+      setToken(data.results.token);
+    },
+    onError: (error: any) => {
+      Alert.alert('Ops!', error.response.data.message);
+    },
+  });
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      className="flex-1"
     >
       <LinearGradient
         colors={['#0a91c7', '#0a91c7']}
@@ -47,19 +72,13 @@ export function LoginScreen() {
           >
             <View style={{ paddingHorizontal: 40 }}>
               <View>
-                <View>
-                  <Text>Version Name: {Constants.manifest?.version}</Text>
-                  <Text>
-                    Version Code: {Constants.manifest?.android?.versionCode}
-                  </Text>
-                </View>
                 <Image
                   style={{
                     width: 90,
                     height: 60,
                     alignSelf: 'center',
                   }}
-                  source={require('../../../assets/logo/logo.png')}
+                  source={Logo}
                   resizeMode="contain"
                 />
               </View>
@@ -75,11 +94,10 @@ export function LoginScreen() {
                 />
                 <TextInput
                   style={formStyles.compactInput}
-                  onChangeText={onChangeText}
-                  keyboardType="numeric"
-                  maxLength={11}
-                  value={text}
-                  placeholder="CPF"
+                  onChangeText={onChangeEmail}
+                  keyboardType="email-address"
+                  placeholder="E-mail"
+                  value={email}
                 />
               </View>
 
@@ -105,30 +123,15 @@ export function LoginScreen() {
         </TouchableWithoutFeedback>
         <View style={{ paddingHorizontal: 40, marginBottom: 40 }}>
           <TouchableOpacity
-            style={[styles.container]}
-            onPress={() => {
-              navigateToHome();
-            }}
+            className="flex items-center justify-center h-12 bg-white rounded-lg"
+            onPress={() => handleLogin.mutate({ email: email, password })}
           >
             <Text style={{ color: colors.primary, fontWeight: '700' }}>
               Entrar
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigate('RegisterScreen');
-            }}
-          >
-            <Text style={{ color: '#fff' }}>Abrir Conta</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

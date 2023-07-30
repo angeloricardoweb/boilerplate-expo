@@ -1,0 +1,1 @@
+export const API_CONTRACT = 'https://api-temp.vercel.app/api/angeloricardoweb/'
