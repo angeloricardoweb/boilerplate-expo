@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 
 import React, { useState } from 'react';
@@ -17,42 +18,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '@theme/colors';
 import { formStyles, typography } from '@theme/globalStyles';
 import Logo from '../../../assets/icon.png';
-import { useMutation } from 'react-query';
-import { api } from '@services/axios';
-import { messageError } from '@services/messageError';
-import { useAuth } from '@hooks/useAuth';
-import { setToken } from '@storage/token';
-
-type LoginProps = {
-  email: string;
-  password: string;
-};
+import { useLogin } from '@hooks/useLogin';
 
 export function LoginScreen() {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
-  const { setIsAuthenticated } = useAuth();
+  const { mutate, isLoading } = useLogin();
 
-  const handleLogin = useMutation({
-    mutationFn: async (props: LoginProps) => {
-      if (!props.email || !props.password) {
-        throw messageError('Preencha todos os campos');
-      }
-      return await api
-        .post('https://api-temp-hermes.vercel.app/api/auth/login', {
-          email: props.email,
-          password: props.password,
-        })
-        .then((response) => response.data);
-    },
-    onSuccess: (data) => {
-      setIsAuthenticated(true);
-      setToken(data.results.token);
-    },
-    onError: (error: any) => {
-      Alert.alert('Ops!', error.response.data.message);
-    },
-  });
+  function handleLogin() {
+    if (!email || !password) {
+      return Alert.alert('Preencha todos os campos');
+    }
+    mutate({ email, password });
+  }
 
   return (
     <KeyboardAvoidingView
@@ -124,10 +102,10 @@ export function LoginScreen() {
         <View style={{ paddingHorizontal: 40, marginBottom: 40 }}>
           <TouchableOpacity
             className="flex items-center justify-center h-12 bg-white rounded-lg"
-            onPress={() => handleLogin.mutate({ email: email, password })}
+            onPress={handleLogin}
           >
             <Text style={{ color: colors.primary, fontWeight: '700' }}>
-              Entrar
+              {isLoading ? <ActivityIndicator color={'#ffffff'} /> : 'Entrar'}
             </Text>
           </TouchableOpacity>
         </View>
