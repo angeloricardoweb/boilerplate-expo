@@ -1,9 +1,19 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 import { LoginScreen } from '@screens/auth/LoginScreen';
 import { RegisterScreen } from '@screens/auth/RegisterScreen';
 
-const Stack = createNativeStackNavigator();
+type AuthRoutes = {
+  LoginScreen: undefined;
+  RegisterScreen: undefined;
+};
+
+export type AuthNavigatorRoutesprops = NativeStackNavigationProp<AuthRoutes>;
+
+const Stack = createNativeStackNavigator<AuthRoutes>();
 
 export function AuthRoutes() {
   return (
