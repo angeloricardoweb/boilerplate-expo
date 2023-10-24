@@ -24,7 +24,7 @@ export function StarRating({ starsValue }: { starsValue: number }) {
   }
 
   return (
-    <View className="flex-row gap-1 absolute top-8 right-5">{starIcons}</View>
+    <View className="flex-row gap-1">{starIcons}</View>
   );
 }
 
