@@ -36,7 +36,8 @@
         {
           "mode": "development"
         }
-      ]
+      ],
+      "expo-font"
     ]
   }
 }
