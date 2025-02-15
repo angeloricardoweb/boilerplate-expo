@@ -15,7 +15,7 @@ export type AuthNavigatorRoutesprops = NativeStackNavigationProp<AuthRoutes>;
 
 const Stack = createNativeStackNavigator<AuthRoutes>();
 
-export function AuthRoutes() {
+export function AuthRoutes(): JSX.Element {
   return (
     <Stack.Navigator
       screenOptions={{
