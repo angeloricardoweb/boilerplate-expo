@@ -10,7 +10,9 @@ import Loading from './src/components/Loading';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Routes } from './src/routes';
 import { colors } from '@theme/colors';
-import useAuthenticatedStore from '@stores/useAuthenticatedStore';
+import { NotifierWrapper } from 'react-native-notifier';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 // import OneSignal from 'react-native-onesignal';
 // OneSignal.setAppId("api-key");
 // OneSignal.promptForPushNotificationsWithUserResponse()
@@ -30,9 +32,13 @@ export default function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Routes />
-      <StatusBar style="light" backgroundColor={colors.primary} translucent />
-    </QueryClientProvider>
+    <GestureHandlerRootView>
+      <NotifierWrapper>
+        <QueryClientProvider client={queryClient}>
+          <Routes />
+          <StatusBar style="light" backgroundColor={colors.primary} translucent />
+        </QueryClientProvider>
+      </NotifierWrapper>
+    </GestureHandlerRootView>
   );
 }
