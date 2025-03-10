@@ -24,9 +24,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: 'com.company.yourapp',
-    config: {
-      googleMapsApiKey: process.env.GCP_IOS_KEY,
-    },
+    // config: {
+    //   googleMapsApiKey: process.env.GCP_IOS_KEY,
+    // },
   },
   android: {
     adaptiveIcon: {
@@ -38,15 +38,20 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'android.permission.ACCESS_FINE_LOCATION',
     ],
     package: 'com.company.yourapp',
-    config: {
-      googleMaps: {
-        apiKey: process.env.GOOGLE_CLOUD_API_KEY,
-      },
-    },
+    // config: {
+    //   googleMaps: {
+    //     apiKey: process.env.GOOGLE_CLOUD_API_KEY,
+    //   },
+    // },
   },
   web: {
     favicon: './assets/favicon.png',
   },
   plugins: ['expo-font'],
+  extra: {
+    eas: {
+      // projectId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    },
+  },
 });
 
